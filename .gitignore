@@ -1,15 +1,59 @@
+# Android Studio & IntelliJ
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+*.ipr
+*.iws
+
+# Build output
+/build/
+*/build/
+
+# Gradle
+.gradle/
 local.properties
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Log files
+*.log
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Keystore files
+*.jks
+
+# Crashlytics/Fabric
+crashlytics.properties
+fabric.properties
+
+# Google Services
+google-services.json
+app/google-services.json
+
+# Generated files
+captures/
+.externalNativeBuild/
+
+# NDK
+.cxx/
+
+# Misc
+*.class
+*.apk
+*.ap_
+*.dex
+
+# Unit test reports
+test-output/
+
+# Android Studio Navigation Editor temp files
+.navigation/
+
+# Jetpack Compose
+*.cache
+
+# Kotlin build (if added later)
+*.kotlin_module
