@@ -1,4 +1,6 @@
 package com.example.finalproject;
 
-public class MapActivity {
+import com.google.android.gms.maps.OnMapReadyCallback;
+
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback{
 }

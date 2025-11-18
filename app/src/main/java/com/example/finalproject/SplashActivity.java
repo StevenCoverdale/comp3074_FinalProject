@@ -1,4 +1,6 @@
 package com.example.finalproject;
 
-public class SplashActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class SplashActivity extends AppCompatActivity {
 }
