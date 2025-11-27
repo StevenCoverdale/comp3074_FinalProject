@@ -21,6 +21,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Button aboutButton;
     private EditText searchEditText;
     private ListView restaurantListView;
     private Button addRestaurantButton;
@@ -45,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
         searchEditText = findViewById(R.id.searchEditText);
         restaurantListView = findViewById(R.id.restaurantListView);
         addRestaurantButton = findViewById(R.id.addRestaurantButton);
+        aboutButton = findViewById(R.id.aboutButton);
+
+        aboutButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+            startActivity(intent);
+        });
 
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
