@@ -113,9 +113,10 @@ public class MainActivity extends AppCompatActivity {
         }
         cursor.close();
 
-        android.widget.Toast.makeText(this,
-                "Loaded " + allRestaurants.size() + " restaurants",
-                android.widget.Toast.LENGTH_SHORT).show();
+        //Unused debug code
+        //android.widget.Toast.makeText(this,
+        //        "Loaded " + allRestaurants.size() + " restaurants",
+        //        android.widget.Toast.LENGTH_SHORT).show();
 
         adapter = new RestaurantAdapter(this, allRestaurants);
         restaurantListView.setAdapter(adapter);
