@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.text.Editable;
+import android.text.TextWatcher;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,6 +45,21 @@ public class MainActivity extends AppCompatActivity {
         searchEditText = findViewById(R.id.searchEditText);
         restaurantListView = findViewById(R.id.restaurantListView);
         addRestaurantButton = findViewById(R.id.addRestaurantButton);
+
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filterRestaurants(s.toString());
+            }
+        });
 
         addRestaurantButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddRestaurantActivity.class);
@@ -94,6 +111,29 @@ public class MainActivity extends AppCompatActivity {
                 android.widget.Toast.LENGTH_SHORT).show();
 
         adapter = new RestaurantAdapter(this, allRestaurants);
+        restaurantListView.setAdapter(adapter);
+    }
+
+    private void filterRestaurants(String query) {
+        query = query.toLowerCase().trim();
+
+        if (query.isEmpty()) {
+            adapter = new RestaurantAdapter(this, allRestaurants);
+            restaurantListView.setAdapter(adapter);
+            return;
+        }
+
+        java.util.List<Restaurant> filtered = new java.util.ArrayList<>();
+        for (Restaurant r : allRestaurants) {
+            String name = r.getName() != null ? r.getName().toLowerCase() : "";
+            String tags = r.getTags() != null ? r.getTags().toLowerCase() : "";
+
+            if (name.contains(query) || tags.contains(query)) {
+                filtered.add(r);
+            }
+        }
+
+        adapter = new RestaurantAdapter(this, filtered);
         restaurantListView.setAdapter(adapter);
     }
 }
