@@ -11,6 +11,6 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
 
         TextView aboutText = findViewById(R.id.aboutText);
-        aboutText.setText("Team Members:\nSteven Coverdale\nDavid Rashid\nAnthony Truong");
+        aboutText.setText("Team Members:\nSteven Coverdale\nDavid Rashidi\nAnthony Truong");
     }
 }
