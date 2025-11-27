@@ -1,6 +1,12 @@
 package com.example.finalproject;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +14,18 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+
+    private EditText searchEditText;
+    private ListView restaurantListView;
+    private Button addRestaurantButton;
+
+    private RestaurantDbHelper dbHelper;
+    private RestaurantAdapter adapter;
+    private List<Restaurant> allRestaurants = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,5 +37,63 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        dbHelper = new RestaurantDbHelper(this);
+
+        searchEditText = findViewById(R.id.searchEditText);
+        restaurantListView = findViewById(R.id.restaurantListView);
+        addRestaurantButton = findViewById(R.id.addRestaurantButton);
+
+        addRestaurantButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AddRestaurantActivity.class);
+            startActivity(intent);
+        });
+
+        restaurantListView.setOnItemClickListener((parent, view, position, id) -> {
+            Restaurant selected = (Restaurant) parent.getItemAtPosition(position);
+            Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+            intent.putExtra("restaurant_id", selected.getId());
+            startActivity(intent);
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadRestaurantsFromDb();
+    }
+
+    private void loadRestaurantsFromDb() {
+        allRestaurants.clear();
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                RestaurantDbHelper.TABLE_NAME,
+                null,
+                null, null, null, null,
+                RestaurantDbHelper.COL_NAME + " ASC"
+        );
+
+        while (cursor.moveToNext()) {
+            long id = cursor.getLong(cursor.getColumnIndexOrThrow(RestaurantDbHelper.COL_ID));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(RestaurantDbHelper.COL_NAME));
+            String address = cursor.getString(cursor.getColumnIndexOrThrow(RestaurantDbHelper.COL_ADDRESS));
+            String phone = cursor.getString(cursor.getColumnIndexOrThrow(RestaurantDbHelper.COL_PHONE));
+            String description = cursor.getString(cursor.getColumnIndexOrThrow(RestaurantDbHelper.COL_DESCRIPTION));
+            String tags = cursor.getString(cursor.getColumnIndexOrThrow(RestaurantDbHelper.COL_TAGS));
+            int rating = cursor.getInt(cursor.getColumnIndexOrThrow(RestaurantDbHelper.COL_RATING));
+
+            Restaurant r = new Restaurant(id, name, address, phone, description, tags, rating);
+            allRestaurants.add(r);
+        }
+        cursor.close();
+
+        android.widget.Toast.makeText(this,
+                "Loaded " + allRestaurants.size() + " restaurants",
+                android.widget.Toast.LENGTH_SHORT).show();
+
+        adapter = new RestaurantAdapter(this, allRestaurants);
+        restaurantListView.setAdapter(adapter);
     }
 }
