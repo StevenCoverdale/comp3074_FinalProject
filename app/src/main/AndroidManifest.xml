@@ -38,6 +38,8 @@
         <!-- About screen -->
         <activity android:name=".AboutActivity" />
 
+        <activity android:name=".AddRestaurantActivity" />
+
         <!-- Google Maps API Key (commented out for now) -->
         <!--
         <meta-data
