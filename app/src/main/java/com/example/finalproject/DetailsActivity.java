@@ -148,14 +148,10 @@ public class DetailsActivity extends AppCompatActivity {
             return;
         }
 
-        String uri = "geo:0,0?q=" + Uri.encode(address);
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        intent.setPackage("com.google.android.apps.maps");
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, "Google Maps not available", Toast.LENGTH_SHORT).show();
-        }
+        Intent intent = new Intent(DetailsActivity.this, MapActivity.class);
+        intent.putExtra("restaurant_name", currentRestaurant.getName());
+        intent.putExtra("restaurant_address", address);
+        startActivity(intent);
     }
 
     private void openDirections() {
