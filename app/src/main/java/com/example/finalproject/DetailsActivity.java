@@ -1,12 +1,13 @@
 package com.example.finalproject;
 
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -29,9 +31,6 @@ public class DetailsActivity extends AppCompatActivity {
     private RatingBar ratingBar;
     private Button buttonViewOnMap;
     private Button buttonDirections;
-    private Button buttonShare;
-    private Button buttonEdit;
-    private Button buttonDelete;
 
     private RestaurantDbHelper dbHelper;
     private long restaurantId = -1;
@@ -42,6 +41,8 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_details);
+
+        // Handle system insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -50,6 +51,14 @@ public class DetailsActivity extends AppCompatActivity {
 
         dbHelper = new RestaurantDbHelper(this);
 
+        // Toolbar setup
+        Toolbar toolbar = findViewById(R.id.detailToolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Restaurant Details");
+        }
+
+        // Bind views
         textName = findViewById(R.id.textDetailName);
         textAddress = findViewById(R.id.textDetailAddress);
         textPhone = findViewById(R.id.textDetailPhone);
@@ -58,9 +67,6 @@ public class DetailsActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.detailRatingBar);
         buttonViewOnMap = findViewById(R.id.buttonViewOnMap);
         buttonDirections = findViewById(R.id.buttonDirections);
-        buttonShare = findViewById(R.id.buttonShare);
-        buttonEdit = findViewById(R.id.buttonEdit);
-        buttonDelete = findViewById(R.id.buttonDelete);
 
         // Get the ID passed from MainActivity
         Intent intent = getIntent();
@@ -84,10 +90,34 @@ public class DetailsActivity extends AppCompatActivity {
 
         buttonViewOnMap.setOnClickListener(v -> openMap());
         buttonDirections.setOnClickListener(v -> openDirections());
-        buttonShare.setOnClickListener(v -> shareRestaurant());
-        buttonEdit.setOnClickListener(v -> editRestaurant());
-        buttonDelete.setOnClickListener(v -> confirmDelete());
     }
+
+    // Inflate menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        return true;
+    }
+
+    // Handle menu clicks
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_share) {
+            shareRestaurant();
+            return true;
+        } else if (id == R.id.action_edit) {
+            editRestaurant();
+            return true;
+        } else if (id == R.id.action_delete) {
+            confirmDelete();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void loadRestaurant() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
