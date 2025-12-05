@@ -12,26 +12,26 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Team Members"
+            android:text="@string/team_header"
             android:textSize="18sp"
             android:textStyle="bold"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Steven Coverdale"
+            android:text="@string/member_steven"
             android:textSize="16sp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="David Rashidi"
+            android:text="@string/member_david"
             android:textSize="16sp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Anthony Truong"
+            android:text="@string/member_anthony"
             android:textSize="16sp"/>
     </LinearLayout>
 </ScrollView>
