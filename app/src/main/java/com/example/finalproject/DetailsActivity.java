@@ -90,6 +90,14 @@ public class DetailsActivity extends AppCompatActivity {
 
         buttonViewOnMap.setOnClickListener(v -> openMap());
         buttonDirections.setOnClickListener(v -> openDirections());
+
+        // Could not add Uber API due to lack of time; using Uber Eats website instead.
+        Button uberButton = findViewById(R.id.buttonOrderWithUber);
+        uberButton.setOnClickListener(v -> {
+            String uberUrl = "https://www.ubereats.com/ca";
+            Intent intentUber = new Intent(Intent.ACTION_VIEW, Uri.parse(uberUrl));
+            startActivity(intentUber);
+        });
     }
 
     // Inflate menu
