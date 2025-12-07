@@ -8,21 +8,23 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/detailToolbar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:title="Restaurant Details"
         app:menu="@menu/detail_menu"/>
 
     <!-- Main Content -->
     <LinearLayout
         android:id="@+id/mainContent"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/footer"
+        app:layout_constraintTop_toBottomOf="@id/detailToolbar"
+        app:layout_constraintBottom_toTopOf="@id/actionBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.5">
@@ -75,6 +77,7 @@
             android:layout_height="wrap_content"
             android:text="Description"
             android:textStyle="bold"/>
+
         <TextView
             android:id="@+id/textDetailDescription"
             android:layout_width="wrap_content"
@@ -89,6 +92,7 @@
             android:text="Rating"
             android:textStyle="bold"
             android:layout_marginTop="12dp"/>
+
         <RatingBar
             android:id="@+id/detailRatingBar"
             android:layout_width="wrap_content"
@@ -97,32 +101,48 @@
             android:stepSize="1"/>
     </LinearLayout>
 
-    <!-- Bottom Action Bar -->
+    <!-- Bottom Action Area -->
     <LinearLayout
         android:id="@+id/actionBar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="center"
         android:padding="8dp"
         app:layout_constraintBottom_toTopOf="@id/footer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
-            android:id="@+id/buttonViewOnMap"
-            android:layout_width="0dp"
+        <!-- Row: View on Map + Get Directions -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="View on Map"/>
+            android:orientation="horizontal"
+            android:gravity="center">
 
+            <Button
+                android:id="@+id/buttonViewOnMap"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="View on Map"/>
+
+            <Button
+                android:id="@+id/buttonDirections"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Get Directions"/>
+        </LinearLayout>
+
+        <!-- Order with Uber (below the two map buttons) -->
         <Button
-            android:id="@+id/buttonDirections"
-            android:layout_width="0dp"
+            android:id="@+id/buttonOrderWithUber"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:text="Get Directions"/>
+            android:layout_marginTop="8dp"
+            android:text="Order with Uber"/>
     </LinearLayout>
 
     <!-- Footer -->
@@ -134,8 +154,9 @@
         android:textSize="14sp"
         android:textStyle="italic"
         android:textColor="#666666"
+        android:paddingTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingTop="8dp"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
+
